@@ -12,7 +12,9 @@ using namespace std;
 
 int main()
 {
-  deck mainDeck;  //create object which makes empty deck of size 52
+  deck mainDeck;
+  cout<<mainDeck;
+  mainDeck.shuffle();
   cout<<mainDeck;
 
   return  0;
