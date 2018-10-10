@@ -11,6 +11,7 @@ Group ID: DAVMAT
 #include <iostream>
 #include <iomanip>
 #include <string>
+//#include "d_node.h"
 
 using namespace std;
 
@@ -30,14 +31,34 @@ class card
       string suit;
 };
 
+template <typename T>
+class node
+{
+public:
+	T nodeValue;
+	node<T>* next;
+	node() : next(NULL) {}
+	node(const T& item, node<T> *nextNode = NULL) :
+		nodeValue(item), next(nextNode) {}
+};
+
 // ***********************************************************
 //      card class implementation
 // ***********************************************************
 
 card::card()
+{ //initialize the single card which can have a value and suit
+  setValue(value);
+  setSuit(suit);
+}
+
+ostream & operator<<(ostream & os, const card & c)
 {
   value = 0;
   suit = "";
+
+	os << "card value: "<< c.value<<" card suit: "<<c.suit<<endl;;
+	return os;
 }
 
 struct Card
