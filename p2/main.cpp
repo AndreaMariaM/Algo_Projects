@@ -14,7 +14,8 @@ int main()
 {
   deck mainDeck;
   cout<<mainDeck;
-  mainDeck.shuffle();
+  for(int i = 0; i<100; i++)
+    mainDeck.shuffle();
   cout<<mainDeck;
 
   return  0;

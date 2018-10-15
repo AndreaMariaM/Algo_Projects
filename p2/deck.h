@@ -67,6 +67,39 @@ deck::deck()
   }
 }
 
+void deck::shuffle()
+{
+	node<card> *one;
+	node<card> *two;
+	node<card> *three;
+	node<card>*four;
+	node<card> *temp;
+	node<card> *second;
+	temp = front->next;
+	one = front->next;
+	second = front->next;
+	int x = (rand() % 48)+1;
+
+	//traverse the linked list to a random spot
+	for (int i = 0; i < x; i++)
+	{
+		temp = one;
+		one = one->next;
+	}
+	//swap two items and swap one item with the first
+	front->next = one;
+	temp->next = front;
+	front = second;
+	two = one->next;
+	three = two->next;
+	four = three->next;
+	one->next = three;
+	two->next = four;
+	three->next = two;
+
+}
+
+/*
 void deck::swap(card *a, card *b)
 {
     card temp;
@@ -91,12 +124,12 @@ void deck::shuffle()
     current = current->next;
   }
 }
+*/
 
 ostream & operator<<(ostream & os, const deck & d)
 {
   node <card> *current;
   node <card> *next;
-  cout<<"here"<<endl;
   for(current = d.front; current != NULL; current = current->next)
   {
      os << current->nodeValue;
