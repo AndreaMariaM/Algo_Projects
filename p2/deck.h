@@ -19,9 +19,9 @@ using namespace std;
 class deck
 {
     public:
-      deck(); //constructor creates the empty linked list
+      deck(); //constructor creates the linked list 52 nodes
 
-      //void swap(card *a, card *b);
+      deck(int size); //creates list of 24 cards
 
       void shuffle();
 
@@ -32,23 +32,33 @@ class deck
 
       void replace(card card);
 
-      void playFlip();
+      //void playFlip();
 
       ~deck();
 
     private:
-      node<card> main_deck;
+      int size;
+      //node<card> main_deck;
       node<card> *front;
       node<card> *current;
       node<card> *next;
+      node<card> *back;
 };
 #endif
 // ***********************************************************
 //      deck class implementation
 // ***********************************************************
+
+deck::deck(int size)
+{
+  front=NULL;
+  back=NULL;
+}
+
+
 deck::deck()
 {
-  //create a deck of cards
+  //create a deck of 52 cards
   card first(1, "Clubs");
   front = new node<card>(first);
 
@@ -148,10 +158,11 @@ ostream & operator<<(ostream & os, const deck & d)
 }
 
 card deck::deal()
-{
+{ //returns top card in deck and then deletes it
+
   card top_card;
-  top_card = front->next;
-  //delete current;
+  node<card> *top = front->next;
+  delete top;
 
   return top_card;
 }
@@ -160,81 +171,6 @@ void deck::replace(card card)
 {
 
 }
-
-void deck::playFlip()
-{
-    cout << "Cards to be shuffled.\n";
-    cout << main_deck;
-
-    cout << "Shuffling first time.\n";
-
-    for(int i = 0; i<100; i++)
-      main_deck.shuffle();
-    cout << "\n\n\n";
-    cout << main_deck;
-
-    std::cout << "Shuffing second time.\n";
-
-    for(int i = 0; i<100; i++)
-      main_deck.shuffle();
-    cout << "\n\n\n";
-    cout << main_deck;
-
-    std::cout << "Shuffling third time.\n";
-
-    for(int i = 0; i<100; i++)
-      main_deck.shuffle();
-    cout << "\n\n\n";
-    cout << main_deck;
-
-    std::cout << "Done shuffling.\n\n";
-
-    bool game = true;
-
-    while (game == true)
-    {
-      int points = 0;
-
-      deal();
-      cout << "Card dealt. \n";
-      card current_card;
-      replace(current_card);
-      current_card = main_deck.nodeValue;
-
-      if ((current_card.getSuit(current_card) == "Hearts"))
-      {
-        points +=1;
-      }
-
-      else if (current_card.getValue(current_card) == 1)
-      {
-        points += 10;
-      }
-
-      else if ((current_card.getValue(current_card) == 11) ||
-               (current_card.getValue(current_card) == 12) ||
-               (current_card.getValue(current_card) == 13))
-      {
-        points += 5;
-      }
-
-      else if (current_card.getValue(current_card) == 7)
-      {
-        points /= 2;
-      }
-
-      else if ((current_card.getValue(current_card) == 2) ||
-               (current_card.getValue(current_card) == 3) ||
-               (current_card.getValue(current_card) == 4) ||
-               (current_card.getValue(current_card) == 5) ||
-               (current_card.getValue(current_card) == 6))
-      {
-        points = 0;
-      }
-
-    }
-}
-
 
 
 deck::~deck()
