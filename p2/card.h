@@ -1,9 +1,9 @@
 /*
 Algorithms 9/28/18
-Project #2 Part A card.h file
+Project #2 card.h file
 Flipcard Game
-Rebekah Davis and Andrea Matellian
-Group ID: DAVMAT
+Rebekah Davis, Andrea Matellian, and Nathan Newbury
+Group ID: DAVMATNEW
 */
 
 #include <stdlib.h>
@@ -12,7 +12,6 @@ Group ID: DAVMAT
 #include <iomanip>
 #include <string>
 #include <algorithm>
-//#include "d_node.h"
 
 using namespace std;
 
@@ -47,26 +46,52 @@ public:
 	node(const T& item, node<T> *nextNode = NULL) :
 		nodeValue(item), next(nextNode) {}
 };
+
+template <typename T>
+class dnode
+{
+	public:
+    T nodeValue;
+		dnode<T> *prev;
+    dnode<T> *next;
+
+    dnode()
+		{
+			next = this;
+			prev = this;
+		}
+
+    dnode(const T& value): nodeValue(value)
+		{
+			next = this;
+			prev = this;
+		}
+};
 #endif
 // ***********************************************************
 //      card class implementation
 // ***********************************************************
+
+//empty constructor
 card::card()
 {
 
 }
 
+//create card given value & suit
 card::card(int v, string s): value(v), suit(s)
 {
   setValue(v);
   setSuit(s);
 }
 
+//copy constructor, = overloaded
 card::card(const card &c):value(c.value), suit(c.suit)
 {
-  std::cout<< "Copy constructor called\n";
+  //std::cout<< "Copy constructor called\n";
 }
 
+//overloaded cout to print card
 ostream & operator<<(ostream & os, const card & c)
 {
   if(c.value == 1)
@@ -103,6 +128,7 @@ string card::getSuit(card c)
   return c.suit;
 }
 
+//overloaded operator to create new card in copy constructor
 card& card::operator = (card &c)
 {
     std::swap(c.value, value);

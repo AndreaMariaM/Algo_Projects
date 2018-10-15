@@ -1,14 +1,15 @@
 /*
 Algorithms 9/28/18
-Project #2 Part A deck.h file
+Project #2 deck.h file
 Flipcard Game
-Rebekah Davis and Andrea Matellian
-Group ID: DAVMAT
+Rebekah Davis, Andrea Matellian, and Nathan Newbury
+Group ID: DAVMATNEW
 */
 #include "card.h"
 #include <cstdlib>
 #include <stdlib.h>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -19,8 +20,6 @@ class deck
     public:
       deck(); //constructor creates the empty linked list
 
-      void swap(card *a, card *b);
-
       void shuffle();
 
       friend ostream& operator<< (ostream &ostr, const deck& d); //printDeck
@@ -29,8 +28,9 @@ class deck
 
     private:
       node<card> *front;
-      node<card> *current;
+      node<card> *nodeValue;
       node<card> *next;
+      node<card> *current;
 };
 #endif
 // ***********************************************************
@@ -99,45 +99,47 @@ void deck::shuffle()
 
 }
 
-/*
-void deck::swap(card *a, card *b)
-{
-    card temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
 
+
+/*
 void deck::shuffle()
 {
-  node <card> *tmp1 = front;
-  node <card> *tmp2;
-
   for(int i = 0; i < 26; i++)
   {
     int index = rand() % 52;
-    for (int i = 0; i < index-1; i++)
+    for (int j = 0; j < index-1; j++)
     {
-      tmp2 = current;
-      swap(&tmp1->nodeValue, &tmp2->nodeValue);
+      //nodeValue = nodeValue->next;
+
+      tmp2 = current->nextNode;
+      tmp1->nextNode = tmp2->nextNode;
+      tmp2->prev = tmp1->item; //item = head?
+      tmp2->item = d.front;
     }
-    current = current->next;
   }
 }
 */
 
 ostream & operator<<(ostream & os, const deck & d)
 {
-  node <card> *current;
+  node <card> *nodeValue;
   node <card> *next;
-  for(current = d.front; current != NULL; current = current->next)
+  for(nodeValue = d.front; nodeValue != NULL; nodeValue = nodeValue->next)
   {
-     os << current->nodeValue;
+     os << nodeValue->nodeValue;
   }
   return os;
 }
 
 deck::~deck()
 {
-    cout << "Deck destroyed\n";
+  node <card>* current = front;
+  while( current != 0 )
+  {
+    node<card>* next = current->next;
+    delete current;
+    current = next;
+  }
+  front = 0;
+  cout << "Deck destroyed\n";
 }

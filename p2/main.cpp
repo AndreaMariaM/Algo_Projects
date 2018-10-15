@@ -1,9 +1,9 @@
 /*
 Algorithms 9/28/18
-Project #2 Part A main.cpp file
+Project #2 main.cpp file
 Flipcard Game
-Rebekah Davis and Andrea Matellian
-Group ID: DAVMAT
+Rebekah Davis, Andrea Matellian, and Nathan Newbury
+Group ID: DAVMATNEW
 */
 
 #include "deck.h"
