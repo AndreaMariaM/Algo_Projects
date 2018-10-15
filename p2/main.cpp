@@ -16,6 +16,7 @@ int main()
   cout<<mainDeck;
   for(int i = 0; i<100; i++)
     mainDeck.shuffle();
+  cout<<"\n\n\n";
   cout<<mainDeck;
 
   return  0;
