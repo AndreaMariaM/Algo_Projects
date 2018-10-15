@@ -12,11 +12,8 @@ using namespace std;
 
 int main()
 {
-  deck mainDeck;
-  cout<<mainDeck;
-  for(int i = 0; i<100; i++)
-    mainDeck.shuffle();
-  cout<<mainDeck;
+  deck card_deck;
+  card_deck.playFlip();
 
   return  0;
 }
