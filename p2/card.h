@@ -23,6 +23,7 @@ class card
       card();
       card(int v, string s); //value and suit
       void setValue(int);
+      card(const card& c1);
       void setSuit(string);
       int getValue();
       string getSuit();
@@ -50,6 +51,11 @@ public:
 card::card()
 {
 
+}
+card::card(const card& c1)
+{
+	suit = c1.suit;
+	value = c1.value;
 }
 
 card::card(int v, string s): value(v), suit(s)

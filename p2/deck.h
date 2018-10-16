@@ -127,7 +127,7 @@ void deck::shuffle()
 
 ostream & operator<<(ostream & os, const deck & d)
 {
-  node <card> *current;
+  node<card> *current;
   for(current = d.front; current != NULL; current = current->next)
   {
      os << current->nodeValue;
@@ -140,7 +140,35 @@ deck::~deck()
     cout << "Deck destroyed\n";
 }
 
+
+
 void deck::replace(card c)
+{
+
+	node<card> *last;
+last = front;
+if (front == NULL)
+{
+	
+	front = new node<card>(c);
+	
+}
+else
+{
+	while (last->next != NULL)
+	{
+		last = last->next;		
+	}
+	last->next = new node<card>(c);
+	
+}
+}
+
+
+
+
+
+/*void deck::replace(card c)
 {
 	cout<<"here2"<<endl;
 	node <card> *last;
@@ -168,4 +196,5 @@ void deck::replace(card c)
 	target->next = NULL;
 	last->next = target;
 	previous->next = nex;
-}      
+} 
+*/     
