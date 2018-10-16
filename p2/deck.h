@@ -19,6 +19,8 @@ using namespace std;
 class deck
 {
     public:
+      node<card> *front;
+
       deck(); //constructor creates the linked list 52 nodes
 
       deck(int size); //creates list of 24 cards
@@ -30,16 +32,12 @@ class deck
       //returns the top card of the deck and is then removed
       card deal();
 
-      void replace(card card);
-
-      //void playFlip();
+      void replace(card c);
 
       ~deck();
 
     private:
       int size;
-      //node<card> main_deck;
-      node<card> *front;
       node<card> *current;
       node<card> *next;
       node<card> *back;
@@ -119,33 +117,6 @@ void deck::shuffle()
 
 }
 
-/*
-void deck::swap(card *a, card *b)
-{
-    card temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void deck::shuffle()
-{
-  node <card> *tmp1 = front;
-  node <card> *tmp2;
-
-  for(int i = 0; i < 26; i++)
-  {
-    int index = rand() % 52;
-    for (int i = 0; i < index-1; i++)
-    {
-      tmp2 = current;
-      swap(&tmp1->nodeValue, &tmp2->nodeValue);
-    }
-    current = current->next;
-  }
-}
-*/
-
 ostream & operator<<(ostream & os, const deck & d)
 {
   node <card> *current;
@@ -159,18 +130,37 @@ ostream & operator<<(ostream & os, const deck & d)
 
 card deck::deal()
 { //returns top card in deck and then deletes it
+  node<card> *top_card;
+  top_card = front;
+  front = front->next;
 
-  card top_card;
-  node<card> *top = front->next;
-  delete top;
-
-  return top_card;
+  return top_card->nodeValue;
+  delete top_card;
 }
 
-void deck::replace(card card)
+void deck::replace(card c)
 {
 
+	node<card> *last;
+  last = front;
+  if (front == NULL)
+  {
+    front = new node<card>(c);
+    back = front;
+  }
+  else
+  {
+	  while (last->next != NULL)
+	{
+		last = last->next;
+	}
+	last->next = new node<card>(c);
+  back = last->next;
+  }
 }
+
+
+
 
 
 deck::~deck()

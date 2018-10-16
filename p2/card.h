@@ -11,6 +11,7 @@ Group ID: DAVMAT
 #include <iostream>
 #include <iomanip>
 #include <string>
+//#include "d_node.h"
 
 using namespace std;
 
@@ -22,11 +23,12 @@ class card
       card();
       card(int v, string s); //value and suit
       void setValue(int);
+      card(const card& c1);
       void setSuit(string);
-      int getValue(card c);
-      string getSuit(card c);
+      int getValue();
+      string getSuit();
       friend ostream& operator<< (ostream &ostr, const card& c);
-
+	    friend bool operator== (const card& lhs, const card& rhs);
     private:
       int value;
       string suit;
@@ -51,6 +53,13 @@ card::card()
 
 }
 
+//copy constructor
+card::card(const card& c1)
+{
+	suit = c1.suit;
+	value = c1.value;
+}
+
 card::card(int v, string s): value(v), suit(s)
 {
   setValue(v);
@@ -73,6 +82,19 @@ ostream & operator<<(ostream & os, const card & c)
 	return os;
 }
 
+bool operator== (const card& lhs, const card& rhs)
+{
+
+	if(lhs.value == rhs.value && lhs.suit ==rhs.suit )
+	{
+		return true;
+		cout<< rhs.value<<endl;
+	}
+	else
+	{
+		return false;
+	}
+}
 void card::setValue(int v)
 {
   value = v;
@@ -83,12 +105,12 @@ void card::setSuit(string s)
   suit = s;
 }
 
-int card::getValue(card c)
+int card::getValue()
 {
-  return c.value;
+  return value;
 }
 
-string card::getSuit(card c)
+string card::getSuit()
 {
-  return c.suit;
+  return suit;
 }
