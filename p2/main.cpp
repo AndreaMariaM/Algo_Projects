@@ -11,168 +11,20 @@ Group ID: DAVMATNEW
 
 using namespace std;
 
-void playFlip()
-{
-    vector<int> used_cards;
-    int size = 24;
-    deck main_deck; //initialize the main deck 52 cards
-    deck deck24(size);  //initialize the 24 card deck - empty
-    node<card> *target;
-
-    cout << "\n\nCards to be shuffled.\n\n";
-    cout << main_deck;
-
-    cout << "\n\nShuffling first time.";
-
-    for(int i = 0; i<100; i++)
-      main_deck.shuffle();
-    cout << "\n\n\n";
-    cout << main_deck;
-
-    std::cout << "\n\nShuffing second time.";
-
-    for(int i = 0; i<100; i++)
-      main_deck.shuffle();
-    cout << "\n\n\n";
-    cout << main_deck;
-
-    std::cout << "\n\nShuffling third time.";
-
-    for(int i = 0; i<100; i++)
-      main_deck.shuffle();
-    cout << "\n\n\n";
-    cout << main_deck;
-
-    std::cout << "\n\nDone shuffling.\n\n";
-
-    bool game = true;
-
-    cout << "The game has started.\n\n";
-
-    int pick;
-    int draw;
-    card current_card;
-
-    cout << "24 cards are being dealt.\n\n";
-
-    for (int i = 0; i < 24; i++)
-    {
-      deck24.replace(main_deck.deal());
-    }
-
-    while (game == true)
-    {
-      int points = 0;
-
-      cout << "The dealt 24 cars are\n\n";
-      cout << deck24;
-
-      cout << "Do you want to flip a card? 0 = NO, 1 = YES.\n\n";
-      cin >> draw;
-
-      if (draw == 1)
-      {
-        cout << "Pick a number between 1 and 24.\n\n";
-        cin >> pick;
-
-        //loop through the used cards vector to make sure they didn't already choose that
-        for (int x = 0; x < used_cards.size(); x++)
-        {
-          if (used_cards[x] == pick)
-          {
-            cout << "You already chose card number " << pick << ". Pick another card.\n\n";
-            cout << "Pick a number between 1 and 24.\n\n";
-            cin >> pick;
-          }
-
-        }
-        used_cards.push_back(pick);
-        //cout << used_cards;
-
-        target = deck24.front;
-        cout << "Choosing...\n\n";
-        for (int j = 1; j <= pick -1; j++)
-        {
-          target = target->next;
-        }
-        current_card = target->nodeValue;
-
-        cout << "You chose:  " << current_card << "\n\n";
-
-      if ((current_card.getSuit() == "Hearts"))
-      {
-        points +=1;
-        cout << "+1 point for Heart.\n\n";
-        cout << "Points = " << points << " \n\n";
-      }
-
-      if (current_card.getValue() == 1)
-      {
-        points += 10;
-        cout << "+10 points for Ace.\n\n";
-        cout << "Points = " << points << " \n\n";
-      }
-
-      if ((current_card.getValue() == 8) ||
-        (current_card.getValue() == 9) ||
-        (current_card.getValue() == 10))
-      {
-        points += 0;
-        cout << "no added points.\n\n";
-        cout << "Points = " << points << " \n\n";
-      }
-
-      if ((current_card.getValue() == 11) ||
-               (current_card.getValue() == 12) ||
-               (current_card.getValue() == 13))
-      {
-        points += 5;
-        cout << "+5 points for a face card.\n\n";
-        cout << "Points = " << points << " \n\n";
-      }
-
-      if (current_card.getValue() == 7)
-      {
-        points /= 2;
-        cout << "You lost half of your points.\n\n";
-        cout << "Points = " << points << " \n\n";
-      }
-
-      if ((current_card.getValue() == 2) ||
-               (current_card.getValue() == 3) ||
-               (current_card.getValue() == 4) ||
-               (current_card.getValue() == 5) ||
-               (current_card.getValue() == 6))
-      {
-        points = 0;
-        cout << "You lost all your points.\n\n";
-        cout << "Points = " << points << " \n\n";
-      }
-      //cout << "loopin'.";
-
-    }
-    else
-    {
-      break;
-    }
-    }
-    cout<<"done\n\n";
-}
-
-
 int main()
 {
-  /* //verify the copy constructor works
+  /*verify the copy constructor works
   card c1(4, "hearts");
   card c2(5, "diamonds");
-  card c3(c1);
-  card c4(c2);
+  card c3(c2);
+  card c4(c1);
   cout<<c3;
   cout<<c4;
   */
-  playFlip();
-
-
+  deck d;
+  d.playFlip(d);
+  return  0;
+/*
 	int x;
   deck mainDeck;
   cout<<mainDeck;
@@ -185,5 +37,6 @@ int main()
   cout<<mainDeck;
   cout << mainDeck;
   cin >> x;
-  return  0;
+
+  */
 }

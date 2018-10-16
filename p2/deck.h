@@ -20,30 +20,20 @@ using namespace std;
 class deck
 {
     public:
-      deck(); //constructor creates the empty linked list
-      void swap(card *a, card *b);
-      node<card> *front;
-
-      deck(); //constructor creates the linked list 52 nodes
-
+      deck(); //constructor creates the linked list of 52 cards
       deck(int size); //creates list of 24 cards
-
+      void swap(card *a, card *b);
       void shuffle();
-	  void replace(card c);
-	  void test(int y);
+	    void replace(card c);
+	    void test(int y);
       friend ostream& operator<< (ostream &ostr, const deck& d); //printDeck
-
-      //returns the top card of the deck and is then removed
-      card deal();
-
-      void replace(card c);
-
+      card deal(); //returns the top card of the deck and is then removed
+      void playFlip(deck &main_deck);
       ~deck();
 
     private:
       node<card> *front;
       node<card> *nodeValue;
-      node<card> *next;
       node<card> *current;
       node<card> *next;
       node<card> *back;
@@ -60,9 +50,8 @@ deck::deck(int size)
 }
 
 
-deck::deck()
+deck::deck() //create a deck of 52 cards
 {
-  //create a deck of 52 cards
   card first(1, "Clubs");
   front = new node<card>(first);
 
@@ -120,36 +109,13 @@ void deck::shuffle()
 	one->next = three;
 	two->next = four;
 	three->next = two;
-
 }
 
-
-
-/*
-void deck::shuffle()
-{
-  for(int i = 0; i < 26; i++)
-  {
-    int index = rand() % 52;
-    for (int j = 0; j < index-1; j++)
-    {
-      //nodeValue = nodeValue->next;
-
-      tmp2 = current->nextNode;
-      tmp1->nextNode = tmp2->nextNode;
-      tmp2->prev = tmp1->item; //item = head?
-      tmp2->item = d.front;
-    }
-  }
-}
-*/
-
+//overloaded operator to print deck
 ostream & operator<<(ostream & os, const deck & d)
 {
-  node <card> *nodeValue;
-  node <card> *next;
-  for(nodeValue = d.front; nodeValue != NULL; nodeValue = nodeValue->next)
   node<card> *current;
+  node <card> *nodeValue;
   for(current = d.front; current != NULL; current = current->next)
   {
      os << nodeValue->nodeValue;
@@ -157,8 +123,9 @@ ostream & operator<<(ostream & os, const deck & d)
   return os;
 }
 
+//returns top card in deck and then deletes it
 card deck::deal()
-{ //returns top card in deck and then deletes it
+{
   node<card> *top_card;
   top_card = front;
   front = front->next;
@@ -169,7 +136,6 @@ card deck::deal()
 
 void deck::replace(card c)
 {
-
 	node<card> *last;
   last = front;
   if (front == NULL)
@@ -177,18 +143,156 @@ void deck::replace(card c)
     front = new node<card>(c);
     back = front;
   }
+
   else
   {
-	  while (last->next != NULL)
-	{
-		last = last->next;
-	}
-	last->next = new node<card>(c);
+    while (last->next != NULL)
+    {
+      last = last->next;
+    }
+  last->next = new node<card>(c);
   back = last->next;
   }
 }
 
+void deck::playFlip(deck &main_deck)
+{
+    vector<int> used_cards;
+    int size = 24;
+    //deck main_deck; //initialize the main deck 52 cards
+    deck deck24(size);  //initialize the 24 card deck - empty
+    node<card> *target;
 
+    cout << "\n\nCards to be shuffled.\n\n";
+    cout << main_deck;
+
+    cout << "\n\nShuffling first time.";
+    for(int i = 0; i<100; i++)
+      main_deck.shuffle();
+    cout << "\n\n\n";
+    cout << main_deck;
+
+    std::cout << "\n\nShuffing second time.";
+    for(int i = 0; i<100; i++)
+      main_deck.shuffle();
+    cout << "\n\n\n";
+    cout << main_deck;
+
+    std::cout << "\n\nShuffling third time.";
+    for(int i = 0; i<100; i++)
+      main_deck.shuffle();
+    cout << "\n\n\n";
+    cout << main_deck;
+
+    std::cout << "\n\nDone shuffling.\n\n";
+    bool game = true;
+    cout << "The game has started.\n\n";
+    int pick;
+    int draw;
+    card current_card;
+
+    cout << "24 cards are being dealt.\n\n";
+    for (int i = 0; i < 24; i++)
+    {
+      deck24.replace(main_deck.deal());
+    }
+
+    while (game == true)
+    {
+      int points = 0;
+
+      cout << "The dealt 24 cars are\n\n";
+      cout << deck24;
+
+      cout << "Do you want to flip a card? 0 = NO, 1 = YES.\n\n";
+      cin >> draw;
+
+      if (draw == 1)
+      {
+        cout << "Pick a number between 1 and 24.\n\n";
+        cin >> pick;
+
+        //loop through the used cards vector to make sure they didn't already choose that
+        for (int x = 0; x < used_cards.size(); x++)
+        {
+          if (used_cards[x] == pick)
+          {
+            cout << "You already chose card number " << pick << ". Pick another card.\n\n";
+            cout << "Pick a number between 1 and 24.\n\n";
+            cin >> pick;
+          }
+
+        }
+        used_cards.push_back(pick);
+        //cout << used_cards;
+
+        target = deck24.front;
+        cout << "Choosing...\n\n";
+        for (int j = 1; j <= pick -1; j++)
+        {
+          target = target->next;
+        }
+        current_card = target->nodeValue;
+
+        cout << "You chose:  " << current_card << "\n\n";
+
+      if ((current_card.getSuit() == "Hearts"))
+      {
+        points +=1;
+        cout << "+1 point for Heart.\n\n";
+        cout << "Points = " << points << " \n\n";
+      }
+
+      if (current_card.getValue() == 1)
+      {
+        points += 10;
+        cout << "+10 points for Ace.\n\n";
+        cout << "Points = " << points << " \n\n";
+      }
+
+      if ((current_card.getValue() == 8) ||
+        (current_card.getValue() == 9) ||
+        (current_card.getValue() == 10))
+      {
+        points += 0;
+        cout << "no added points.\n\n";
+        cout << "Points = " << points << " \n\n";
+      }
+
+      if ((current_card.getValue() == 11) ||
+               (current_card.getValue() == 12) ||
+               (current_card.getValue() == 13))
+      {
+        points += 5;
+        cout << "+5 points for a face card.\n\n";
+        cout << "Points = " << points << " \n\n";
+      }
+
+      if (current_card.getValue() == 7)
+      {
+        points /= 2;
+        cout << "You lost half of your points.\n\n";
+        cout << "Points = " << points << " \n\n";
+      }
+
+      if ((current_card.getValue() == 2) ||
+          (current_card.getValue() == 3) ||
+          (current_card.getValue() == 4) ||
+          (current_card.getValue() == 5) ||
+          (current_card.getValue() == 6))
+          {
+            points = 0;
+            cout << "You lost all your points.\n\n";
+            cout << "Points = " << points << " \n\n";
+          }
+    }
+    else
+    {
+      break;
+    }
+  }
+  cout<<"done\n\n";
+}
 
 
 
@@ -204,62 +308,3 @@ deck::~deck()
   front = 0;
   cout << "Deck destroyed\n";
 }
-
-
-
-void deck::replace(card c)
-{
-
-	node<card> *last;
-last = front;
-if (front == NULL)
-{
-	
-	front = new node<card>(c);
-	
-}
-else
-{
-	while (last->next != NULL)
-	{
-		last = last->next;		
-	}
-	last->next = new node<card>(c);
-	
-}
-}
-
-
-
-
-
-/*void deck::replace(card c)
-{
-	cout<<"here2"<<endl;
-	node <card> *last;
-	node <card> *temp;
-	node<card> *target;
-	node<card> *nex;
-	node<card> *previous;
-	last = front;
-	//move to the end
-	while (last->next != NULL)
-	{	
-		cout<< last->nodeValue<<endl;
-		if (last->next->nodeValue == c)
-		{
-			previous = last;
-			target = last->next;
-			nex = target->next;
-		}
-		last = last->next;
-	}
-	//set temp node node to the card
-	cout<< "done"<<endl;
-	cout<< "last:  "<<last->nodeValue<<endl;
-	cout<<"target: "<<target->nodeValue<<endl;
-	target->next = NULL;
-	last->next = target;
-	previous->next = nex;
-} 
-*/     

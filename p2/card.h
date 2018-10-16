@@ -11,7 +11,6 @@ Group ID: DAVMATNEW
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
@@ -24,14 +23,12 @@ class card
       card(int v, string s); //value and suit
       card(const card &c);
       void setValue(int);
-      card(const card& c1);
       void setSuit(string);
       int getValue();
       string getSuit();
       friend ostream& operator<< (ostream &ostr, const card& c);
-	    friend bool operator== (const card& lhs, const card& rhs);
-      card& operator = (card &c);
-
+	    //friend bool operator== (const card& lhs, const card& rhs);
+      card& operator = (const card &c);
 
     private:
       int value;
@@ -41,33 +38,12 @@ class card
 template <typename T>
 class node
 {
-public:
-	T nodeValue;
-	node<T>* next;
-	node() : next(NULL) {}
-	node(const T& item, node<T> *nextNode = NULL) :
-		nodeValue(item), next(nextNode) {}
-};
-
-template <typename T>
-class dnode
-{
-	public:
-    T nodeValue;
-		dnode<T> *prev;
-    dnode<T> *next;
-
-    dnode()
-		{
-			next = this;
-			prev = this;
-		}
-
-    dnode(const T& value): nodeValue(value)
-		{
-			next = this;
-			prev = this;
-		}
+  public:
+  	T nodeValue;
+  	node<T>* next;
+  	node() : next(NULL) {}
+  	node(const T& item, node<T> *nextNode = NULL) :
+  		   nodeValue(item), next(nextNode) {}
 };
 #endif
 // ***********************************************************
@@ -75,22 +51,7 @@ class dnode
 // ***********************************************************
 
 //empty constructor
-card::card()
-{
-
-}
-card::card(const card& c1)
-{
-	suit = c1.suit;
-	value = c1.value;
-}
-
-//copy constructor
-card::card(const card& c1)
-{
-	suit = c1.suit;
-	value = c1.value;
-}
+card::card() {}
 
 //create card given value & suit
 card::card(int v, string s): value(v), suit(s)
@@ -99,10 +60,21 @@ card::card(int v, string s): value(v), suit(s)
   setSuit(s);
 }
 
-//copy constructor, = overloaded
-card::card(const card &c):value(c.value), suit(c.suit)
+//overloaded operator to create new card in copy constructor
+card& card::operator = (const card &c)
 {
-  //std::cout<< "Copy constructor called\n";
+  if(this== &c)
+    return *this; //calls copy constructor
+  value = c.value; //create copy members
+  suit = c.suit;
+  return *this; //calls copy constructor
+}
+
+//copy constructor, = overloaded
+card::card(const card &c)
+{
+  value = c.value;
+  suit = c.suit;
 }
 
 //overloaded cout to print card
@@ -122,6 +94,7 @@ ostream & operator<<(ostream & os, const card & c)
 	return os;
 }
 
+/*
 bool operator== (const card& lhs, const card& rhs)
 {
 
@@ -135,6 +108,8 @@ bool operator== (const card& lhs, const card& rhs)
 		return false;
 	}
 }
+*/
+
 void card::setValue(int v)
 {
   value = v;
@@ -153,14 +128,4 @@ int card::getValue()
 string card::getSuit()
 {
   return suit;
-}
-
-//overloaded operator to create new card in copy constructor
-card& card::operator = (card &c)
-{
-    std::swap(c.value, value);
-    std::swap(c.suit, suit);
-    //value = c.value;
-    //suit = c.suit;
-    return *this;
 }
