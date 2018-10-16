@@ -94,22 +94,6 @@ ostream & operator<<(ostream & os, const card & c)
 	return os;
 }
 
-/*
-bool operator== (const card& lhs, const card& rhs)
-{
-
-	if(lhs.value == rhs.value && lhs.suit ==rhs.suit )
-	{
-		return true;
-		cout<< rhs.value<<endl;
-	}
-	else
-	{
-		return false;
-	}
-}
-*/
-
 void card::setValue(int v)
 {
   value = v;

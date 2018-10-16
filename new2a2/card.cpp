@@ -1,67 +1,97 @@
+/*
+Algorithms 9/28/18
+Project #2 card.cpp file
+Flipcard Game
+Rebekah Davis, Andrea Matellian, and Nathan Newbury
+Group ID: DAVMATNEW
+*/
+
+#include <stdlib.h>
+#include <vector>
 #include <iostream>
-#include <cstdlib>
+#include <iomanip>
 #include <string>
-#include <time.h>
-using namespace std;
 #include "card.h"
 #include "deck.h"
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <time.h>
+
 using namespace std;
-//card constructors
 
-card::card()
+//empty constructor
+card::card() {}
+
+//create card given value & suit
+card::card(int v, string s): value(v), suit(s)
 {
-
+  setValue(v);
+  setSuit(s);
 }
 
-card::card(int val, string su)
+//overloaded operator to create new card in copy constructor
+card& card::operator = (const card &c)
 {
-	value = val;
-	suit = su;
-}
-void card::setValue(int val)
-{
-	val = value;
+  if(this== &c)
+    return *this; //calls copy constructor
+  value = c.value; //create copy members
+  suit = c.suit;
+  return *this; //calls copy constructor
 }
 
-void card::setSuit(string su)
+//copy constructor, = overloaded
+card::card(const card &c)
 {
-	suit = su;
+  value = c.value;
+  suit = c.suit;
 }
+
+//overloaded cout to print card
+ostream & operator<<(ostream & os, const card & c)
+{
+  if(c.value == 1)
+    os << "card value: " << "Ace" << "  ";
+  else if(c.value <= 10)
+    os << "card value: " << c.value << "  ";
+  else if(c.value == 11)
+    os << "card value: " << "Jack" << "  ";
+  else if(c.value == 12)
+    os << "card value: " << "Queen" << "  ";
+  else if(c.value == 13)
+    os << "card value: " << "King" << "  ";
+  os << "suit: " << c.suit << endl;
+	return os;
+}
+
+/*
+bool operator== (const card& lhs, const card& rhs)
+{
+
+	if(lhs.value == rhs.value && lhs.suit ==rhs.suit )
+	{
+		return true;
+		cout<< rhs.value<<endl;
+	}
+	else
+	{
+		return false;
+	}
+}
+*/
+
+void card::setValue(int v)
+{
+  value = v;
+}
+
+void card::setSuit(string s)
+{
+  suit = s;
+}
+
 int card::getValue()
 {
-	return value;
+  return value;
 }
+
 string card::getSuit()
 {
-	return suit;
-}
-//output king and queen and jack for face cards
-ostream& operator<<(ostream& os, const card& cd)
-{
-	if (cd.value <= 10)
-	{
-		os << "card value: " << cd.value << "  ";
-	}
-	if (cd.value == 11)
-	{
-		os << "card value: " << "Jack" << "  ";
-	}
-	if (cd.value == 12)
-	{
-		os << "card value: " << "Queen" << "  ";
-	}
-	if (cd.value == 13)
-	{
-		os << "card value: " << "King" << "  ";
-	}
-	if (cd.value == 14)
-	{
-		os << "card value: " << "Ace" << "  ";
-	}
-	os << "suit: " << cd.suit << endl;
-	return os;
+  return suit;
 }
