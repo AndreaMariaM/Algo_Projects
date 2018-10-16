@@ -8,6 +8,8 @@ Group ID: DAVMATNEW
 #include "card.h"
 #include <cstdlib>
 #include <stdlib.h>
+#include <iostream>
+#include <utility>
 #include <random>
 #include <algorithm>
 
@@ -18,11 +20,20 @@ using namespace std;
 class deck
 {
     public:
-      deck(); //constructor creates the empty linked list
+      node<card> *front;
+
+      deck(); //constructor creates the linked list 52 nodes
+
+      deck(int size); //creates list of 24 cards
 
       void shuffle();
 
       friend ostream& operator<< (ostream &ostr, const deck& d); //printDeck
+
+      //returns the top card of the deck and is then removed
+      card deal();
+
+      void replace(card c);
 
       ~deck();
 
@@ -31,14 +42,24 @@ class deck
       node<card> *nodeValue;
       node<card> *next;
       node<card> *current;
+      node<card> *next;
+      node<card> *back;
 };
 #endif
 // ***********************************************************
 //      deck class implementation
 // ***********************************************************
+
+deck::deck(int size)
+{
+  front=NULL;
+  back=NULL;
+}
+
+
 deck::deck()
 {
-  //create a deck of cards
+  //create a deck of 52 cards
   card first(1, "Clubs");
   front = new node<card>(first);
 
@@ -72,7 +93,7 @@ void deck::shuffle()
 	node<card> *one;
 	node<card> *two;
 	node<card> *three;
-	node<card>*four;
+	node<card> *four;
 	node<card> *temp;
 	node<card> *second;
 	temp = front->next;
@@ -130,6 +151,41 @@ ostream & operator<<(ostream & os, const deck & d)
   }
   return os;
 }
+
+card deck::deal()
+{ //returns top card in deck and then deletes it
+  node<card> *top_card;
+  top_card = front;
+  front = front->next;
+
+  return top_card->nodeValue;
+  delete top_card;
+}
+
+void deck::replace(card c)
+{
+
+	node<card> *last;
+  last = front;
+  if (front == NULL)
+  {
+    front = new node<card>(c);
+    back = front;
+  }
+  else
+  {
+	  while (last->next != NULL)
+	{
+		last = last->next;
+	}
+	last->next = new node<card>(c);
+  back = last->next;
+  }
+}
+
+
+
+
 
 deck::~deck()
 {

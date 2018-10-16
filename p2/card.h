@@ -24,10 +24,12 @@ class card
       card(int v, string s); //value and suit
       card(const card &c);
       void setValue(int);
+      card(const card& c1);
       void setSuit(string);
-      int getValue(card c);
-      string getSuit(card c);
+      int getValue();
+      string getSuit();
       friend ostream& operator<< (ostream &ostr, const card& c);
+	    friend bool operator== (const card& lhs, const card& rhs);
       card& operator = (card &c);
 
 
@@ -78,6 +80,13 @@ card::card()
 
 }
 
+//copy constructor
+card::card(const card& c1)
+{
+	suit = c1.suit;
+	value = c1.value;
+}
+
 //create card given value & suit
 card::card(int v, string s): value(v), suit(s)
 {
@@ -108,6 +117,19 @@ ostream & operator<<(ostream & os, const card & c)
 	return os;
 }
 
+bool operator== (const card& lhs, const card& rhs)
+{
+
+	if(lhs.value == rhs.value && lhs.suit ==rhs.suit )
+	{
+		return true;
+		cout<< rhs.value<<endl;
+	}
+	else
+	{
+		return false;
+	}
+}
 void card::setValue(int v)
 {
   value = v;
@@ -118,14 +140,14 @@ void card::setSuit(string s)
   suit = s;
 }
 
-int card::getValue(card c)
+int card::getValue()
 {
-  return c.value;
+  return value;
 }
 
-string card::getSuit(card c)
+string card::getSuit()
 {
-  return c.suit;
+  return suit;
 }
 
 //overloaded operator to create new card in copy constructor
