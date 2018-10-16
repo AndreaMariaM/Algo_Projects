@@ -79,6 +79,11 @@ card::card()
 {
 
 }
+card::card(const card& c1)
+{
+	suit = c1.suit;
+	value = c1.value;
+}
 
 //copy constructor
 card::card(const card& c1)

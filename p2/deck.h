@@ -20,6 +20,8 @@ using namespace std;
 class deck
 {
     public:
+      deck(); //constructor creates the empty linked list
+      void swap(card *a, card *b);
       node<card> *front;
 
       deck(); //constructor creates the linked list 52 nodes
@@ -27,7 +29,8 @@ class deck
       deck(int size); //creates list of 24 cards
 
       void shuffle();
-
+	  void replace(card c);
+	  void test(int y);
       friend ostream& operator<< (ostream &ostr, const deck& d); //printDeck
 
       //returns the top card of the deck and is then removed
@@ -146,6 +149,8 @@ ostream & operator<<(ostream & os, const deck & d)
   node <card> *nodeValue;
   node <card> *next;
   for(nodeValue = d.front; nodeValue != NULL; nodeValue = nodeValue->next)
+  node<card> *current;
+  for(current = d.front; current != NULL; current = current->next)
   {
      os << nodeValue->nodeValue;
   }
@@ -199,3 +204,62 @@ deck::~deck()
   front = 0;
   cout << "Deck destroyed\n";
 }
+
+
+
+void deck::replace(card c)
+{
+
+	node<card> *last;
+last = front;
+if (front == NULL)
+{
+	
+	front = new node<card>(c);
+	
+}
+else
+{
+	while (last->next != NULL)
+	{
+		last = last->next;		
+	}
+	last->next = new node<card>(c);
+	
+}
+}
+
+
+
+
+
+/*void deck::replace(card c)
+{
+	cout<<"here2"<<endl;
+	node <card> *last;
+	node <card> *temp;
+	node<card> *target;
+	node<card> *nex;
+	node<card> *previous;
+	last = front;
+	//move to the end
+	while (last->next != NULL)
+	{	
+		cout<< last->nodeValue<<endl;
+		if (last->next->nodeValue == c)
+		{
+			previous = last;
+			target = last->next;
+			nex = target->next;
+		}
+		last = last->next;
+	}
+	//set temp node node to the card
+	cout<< "done"<<endl;
+	cout<< "last:  "<<last->nodeValue<<endl;
+	cout<<"target: "<<target->nodeValue<<endl;
+	target->next = NULL;
+	last->next = target;
+	previous->next = nex;
+} 
+*/     
